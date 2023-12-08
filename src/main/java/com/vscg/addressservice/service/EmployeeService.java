@@ -2,6 +2,7 @@ package com.vscg.addressservice.service;
 
 import com.vscg.addressservice.entity.Address;
 import com.vscg.addressservice.entity.Employee;
+import com.vscg.addressservice.exception.EmptyNameException;
 import com.vscg.addressservice.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class EmployeeService {
 
     @Transactional
     public Employee addEmployee(Employee employee) throws Exception {
+
+        if(employee.getName().isEmpty())
+            throw new EmptyNameException("Name input field is empty");
+
         Employee employeeSavedToDB = this.employeeRepository.save(employee);
 
         Address address = new Address();
